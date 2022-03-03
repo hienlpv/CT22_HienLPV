@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Alert } from 'react-bootstrap';
+import { Navigate } from 'react-router-dom';
+
+import './login.css';
 
 function Login() {
   // State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userList, setUserList] = useState([]);
+  const [user, setUser] = useState({});
   const [alert, setAlert] = useState({});
 
   // Effect
@@ -56,13 +60,15 @@ function Login() {
     if (!userInput)
       return handleAlert('danger', 'Email or Password is Invalid!');
 
-    userInput.isAdmin
-      ? handleAlert('success', 'Your have Admin Role')
-      : handleAlert('success', 'Your have User Role');
+    setUser(userInput);
   };
 
+  if (user.isAdmin) {
+    return <Navigate to='/admin' replace={true} />;
+  }
+
   return (
-    <Container className='container'>
+    <Container className='loginContainer'>
       <Form>
         {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>}
         <div className='form-container'>

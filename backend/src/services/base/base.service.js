@@ -40,7 +40,6 @@ class BaseService {
     );
     entity.id = id;
     let responseDto = new ResponseDto();
-    console.log(entity);
     responseDto.results = await this._repos.update(entity);
     return responseDto;
   };

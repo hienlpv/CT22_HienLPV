@@ -6,8 +6,7 @@ import './login.css';
 
 function Login() {
   // State
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userInput, setUserInput] = useState({ email: '', password: '' });
   const [userList, setUserList] = useState([]);
   const [user, setUser] = useState({});
   const [alert, setAlert] = useState({});
@@ -36,31 +35,18 @@ function Login() {
     setTimeout(() => setAlert({ show: false }), 2000);
   };
 
-  const handleFormInputChange = (e) => {
-    switch (e.target.name) {
-      case 'email':
-        setEmail(e.target.value);
-        break;
-      case 'password':
-        setPassword(e.target.value);
-        break;
-      default:
-        break;
-    }
+  const handleFormInputChange = ({ target }) => {
+    setUserInput({ ...userInput, [target.name]: target.value });
   };
 
   const handleFormSubmit = () => {
-    console.log(email, password);
-    if (email === '' || password === '') return;
-
-    const userInput = userList.find(
-      (user) => user.email === email && user.password === password
+    const user = userList.find(
+      (u) => u.email === userInput.email && u.password === userInput.password
     );
 
-    if (!userInput)
-      return handleAlert('danger', 'Email or Password is Invalid!');
+    if (!user) return handleAlert('danger', 'Email or Password is Invalid!');
 
-    setUser(userInput);
+    setUser(user);
   };
 
   if (user.isAdmin) {
@@ -70,7 +56,9 @@ function Login() {
   return (
     <Container className='loginContainer'>
       <Form>
-        {alert.show && <Alert variant={alert.variant}>{alert.message}</Alert>}
+        <Alert show={alert.show} variant={alert.variant}>
+          {alert.message}
+        </Alert>
         <div className='form-container'>
           <div className='form-title'>
             Login<i className='fa fa-users' aria-hidden='true'></i>
@@ -81,7 +69,7 @@ function Login() {
               type='email'
               name='email'
               placeholder='Email'
-              value={email}
+              value={userInput.email}
               onChange={handleFormInputChange}
             />
           </Form.Group>
@@ -91,7 +79,7 @@ function Login() {
               type='password'
               name='password'
               placeholder='Password'
-              value={password}
+              value={userInput.password}
               onChange={handleFormInputChange}
             />
           </Form.Group>

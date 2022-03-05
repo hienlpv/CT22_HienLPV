@@ -3,7 +3,7 @@ const authenticationService = new AuthenticationService();
 
 const authGetAll = async (req, res) => {
   const response = await authenticationService.getAll();
-  res.json(response.results[0].dataValues);
+  res.json(response.results);
 };
 
 const authGetById = (req, res) => {

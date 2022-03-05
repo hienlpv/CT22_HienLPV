@@ -59,15 +59,16 @@ function ModalComponent({ show, onHide }) {
   };
 
   const validateForm = () => {
-    let array = Object.keys(validMessage);
-    for (let index = 0; index < array.length; index++) {
-      const element = array[index];
-      if (formData[element] === '') {
-        showValidMessage(element);
-        return false;
+    let isValid = true;
+    let newValidMessage = { ...validMessageInit };
+    Object.keys(validMessage).forEach((i) => {
+      if (formData[i] === '') {
+        newValidMessage[i] = i + ' is required';
+        isValid = false;
       }
-    }
-    return true;
+    });
+    setValidMessage(newValidMessage);
+    return isValid;
   };
 
   const showValidMessage = (name) => {

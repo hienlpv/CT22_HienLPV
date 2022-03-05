@@ -20,7 +20,7 @@ function Dashboard() {
       <table id='tbUserList' className='table'>
         <thead>
           <tr>
-            <th rowSpan={2}>STT</th>
+            <th rowSpan={2}>No</th>
             <th rowSpan={2}>UserID</th>
             <th rowSpan={2}>Full Name</th>
             <th rowSpan={2}>Email</th>
